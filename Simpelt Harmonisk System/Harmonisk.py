@@ -87,10 +87,9 @@ class shm:
         plt.show()
         pass
     
-    def create_simulation_D(self) -> None:
+    def create_simulation_D(self, m_values, k_values) -> None:
         # 3D-plot af svingningstid som funktion af m og k
-        m_values = np.linspace(0.5, 5, 20)
-        k_values = np.linspace(5, 50, 20)
+        
         M, K = np.meshgrid(m_values, k_values)
         T = 2 * np.pi * np.sqrt(M / K)  # Svingningstid (T = 2π√(m/k))
 
@@ -100,12 +99,13 @@ class shm:
         ax.set_xlabel('Masse (kg)')
         ax.set_ylabel('Fjederkonstant (N/m)')
         ax.set_zlabel('Svingningstid (s)')
-        ax.set_title('Svingningstid som funktion af m og k')
+        ax.set_title('Svingningsperiode vs masse og fjederkonstant')
         plt.show()
 
         pass
 
 if __name__ == "__main__":
+    
     system = shm(
         mass=10,
         spring_constant=10, 
@@ -115,5 +115,9 @@ if __name__ == "__main__":
     )
 
     system.create_simulation_C(20)
-    system.create_simulation_D()
+    
+    m_values = np.linspace(0.5, 5.0, 20)  # Mass range: 0.5 to 5 kg
+    k_values = np.linspace(5.0, 20.0, 20)  # Spring constant range: 5 to 20 N/m
+    
+    system.create_simulation_D(m_values, k_values)
 

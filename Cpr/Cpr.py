@@ -1,3 +1,13 @@
+#############################################
+# Magnus Pins
+# 2.W   
+# 02-12-2024
+#############################################
+
+#Har ikke valgt at lave et input (altså et input hvor folk kan skrive deres eget cpr nummer ind, da jeg mener det ikke er sikkert nok)
+#Der er kun 526 mulige kombinationer af cpr numre.
+
+#Importere nødvendige biblioteker
 from datetime import date
 from numpy import random
 
@@ -6,6 +16,7 @@ class validater:
     cpr: int = 0
     sum: int = 0
 
+    #Initialisere cpr nummeret
     def __init__(self, cpr: int) -> None:
         self.cpr = cpr
 
@@ -37,6 +48,7 @@ class validater:
 
     #Checker om cpr nummeret er gyldigt
     def check(self) -> bool:
+        #Tjekker om summen af cpr nummeret er deleligt med 11
         if self.sum % 11 == 0:
             print("CPR nummeret er gyldigt \n")
             return True
@@ -47,8 +59,10 @@ class validater:
 class generate:
     dato = date.today()
     
+    #Generere et cpr nummer
     def bruceforce(self) -> str:
         while True:
+            #Generere de første 6 cifre i cpr nummeret
             cpr = self.dato.strftime('%d%m%y')
             cpr = [int(x) for x in cpr]
 
@@ -56,7 +70,9 @@ class generate:
             while len(cpr) != 10:
                 cpr.append(random.randint(0, 9))
 
+            #Formaterer cpr nummeret
             cpr_str = ''.join(map(str, cpr))
+            #Tilføjer bindestreg mellem de første 6 cifre og de sidste 4 cifre
             formatted_cpr = f"{cpr_str[:6]}-{cpr_str[6:]}"
 
             print("Genereret CPR nummer:", formatted_cpr)
@@ -64,9 +80,12 @@ class generate:
             #Validerer cpr nummeret
             v = validater(formatted_cpr)
             
+            #Kontrol beregning
             v.kontrolberegning()
+            #printer hvilket køn det er
             print(v.sex())
 
+            #Hvis cpr nummeret er gyldigt, stopper while loopet
             if v.check():
                 break
 
@@ -80,9 +99,13 @@ generate.bruceforce()
 #CPR validater
 print("\n")
 print("CPR validater")
-# cpr = ''
-
-# validater = validater(cpr)
-# validater.kontrolberegning()
-# print(validater.sex())
-# validater.check()
+#Indtast et cpr nummer
+cpr = ''
+#Valider cpr nummeret
+validater = validater(cpr)
+#Kontrol beregning
+validater.kontrolberegning()
+#Printer kønnet
+print(validater.sex())
+#Tjekker om cpr nummeret er gyldigt
+validater.check()
